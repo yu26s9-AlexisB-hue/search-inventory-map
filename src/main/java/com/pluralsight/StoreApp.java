@@ -1,5 +1,9 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -25,16 +29,28 @@ public class StoreApp {
 
     private static HashMap<Integer, Product>loadInventory (){
         HashMap<Integer, Product>inventory = new HashMap<>();
-        inventory.put(6543, new Product(6543,"Bananas",2.49));
-        inventory.put(7654, new Product(7654, "Apples", 3.19));
-        inventory.put(8765, new Product(8765, "Oranges", 4.29));
-        inventory.put(9871, new Product(9871, "Milk", 2.99));
-        inventory.put(1982, new Product(1982, "Bread", 1.99));
-        inventory.put(2193, new Product(2193, "Eggs", 3.49));
-        inventory.put(3204, new Product(3204, "Cheese", 5.79));
-        inventory.put(4315, new Product(4315, "Chicken Breast", 7.99));
-        inventory.put(5426, new Product(5426, "Rice", 2.49));
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader("Inventory.csv"));
 
+            String line;
+            while ((line = reader.readLine())!= null){
+
+                Product p = new Product(line);
+
+                //Add to the global inventory
+                inventory.put(p.getId(), p);
+
+
+                // print out the full list
+                System.out.printf("%d %s %.2f\n", p.getId(), p.getName(), p.getPrice());
+
+            }
+            reader.close();
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return inventory;
 
     }
