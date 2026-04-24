@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.util.regex.Pattern;
+
 public class Product {
     private int id;
     private String name;
@@ -10,6 +12,15 @@ public class Product {
         this.name = name;
         this.price = price;
     }
+
+    public Product(String line){
+        String[] Pr = line.split(Pattern.quote("|"));
+        this.id = Integer.parseInt(Pr[0]);
+        this.name = Pr[1];
+        this.price = Double.parseDouble(Pr[2]);
+    }
+
+
 
     public int getId() {
         return id;
